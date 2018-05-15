@@ -288,5 +288,40 @@ namespace XliffTranslatorTool
                 Multiselect = false
             };
         }
+
+        private void DeleteRow(object sender, RoutedEventArgs e)
+        {
+            if (MainDataGrid.SelectedItems.Count > 0)
+            {
+                List<TranslationUnit> temp = new List<TranslationUnit>();
+                foreach (TranslationUnit selectedUnit in MainDataGrid.SelectedItems)
+                {
+                    //System.Diagnostics.Debug.WriteLine(selectedUnit.Identifier);
+                    temp.Add(selectedUnit);
+                }
+                foreach (TranslationUnit tu in temp)
+                {
+                    (MainDataGrid.ItemsSource as ObservableCollection<TranslationUnit>).Remove(tu);
+                }
+            }
+        }
+        private void CopyTranslation(object sender, RoutedEventArgs e)
+        {
+            if (MainDataGrid.SelectedItems.Count > 0)
+            {
+                try
+                {
+                    foreach (TranslationUnit tu in MainDataGrid.SelectedItems)
+                    {
+                        tu.Target = tu.Source;
+                    }
+                }
+                catch (Exception)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                }
+                //MainDataGrid.UpdateLayout();
+            }
+        }
     }
 }
